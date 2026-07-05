@@ -1,0 +1,22 @@
+# Local/raw data
+covid_data_2020_2021.csv
+*.csv.gz
+*.zip
+
+# Python caches
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Environment folders
+.venv/
+venv/
+env/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Keep generated ML outputs, but ignore very large ad hoc model dumps
+*.pkl

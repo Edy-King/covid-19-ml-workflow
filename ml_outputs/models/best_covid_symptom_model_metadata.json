@@ -1,0 +1,68 @@
+{
+  "best_model_name": "LightGBM",
+  "source": "tuned",
+  "feature_columns": [
+    "cough",
+    "fever",
+    "sore_throat",
+    "shortness_of_breath",
+    "head_ache",
+    "symptom_count",
+    "has_any_symptom",
+    "has_multiple_symptoms",
+    "age_60_and_above_yes",
+    "gender_female",
+    "gender_male",
+    "test_indication_abroad",
+    "test_indication_contact with confirmed",
+    "test_indication_other",
+    "test_month",
+    "test_dayofweek"
+  ],
+  "symptom_columns": [
+    "cough",
+    "fever",
+    "sore_throat",
+    "shortness_of_breath",
+    "head_ache"
+  ],
+  "context_columns": [
+    "test_date",
+    "age_60_and_above",
+    "gender",
+    "test_indication"
+  ],
+  "target_column": "corona_result",
+  "n_rows_requested": 1000000,
+  "n_rows_used": 1000000,
+  "test_size": 0.2,
+  "random_state": 42,
+  "metrics": {
+    "model": "LightGBM",
+    "tuned_train_seconds": 381.8816363811493,
+    "best_cv_roc_auc": 0.7434319997215648,
+    "best_params": {
+      "subsample": 0.85,
+      "num_leaves": 31,
+      "n_estimators": 300,
+      "min_child_samples": 100,
+      "learning_rate": 0.08,
+      "colsample_bytree": 0.8
+    },
+    "accuracy": 0.923175,
+    "precision": 0.628900580551524,
+    "recall": 0.3807876091613116,
+    "f1": 0.474359412952003,
+    "roc_auc": 0.743357625597411,
+    "confusion_matrix": [
+      [
+        177702,
+        4091
+      ],
+      [
+        11274,
+        6933
+      ]
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+model,tuned_train_seconds,best_cv_roc_auc,best_params,accuracy,precision,recall,f1,roc_auc,confusion_matrix
+XGBoost,43.56481194496155,0.7434623822018959,"{'subsample': 0.75, 'n_estimators': 300, 'min_child_weight': 5, 'max_depth': 5, 'learning_rate': 0.05, 'colsample_bytree': 0.8}",0.92325,0.6298754432221111,0.3805129895095293,0.47442306375402316,0.74302160735844,"[[177722, 4071], [11279, 6928]]"
+LightGBM,381.8816363811493,0.7434319997215648,"{'subsample': 0.85, 'num_leaves': 31, 'n_estimators': 300, 'min_child_samples': 100, 'learning_rate': 0.08, 'colsample_bytree': 0.8}",0.923175,0.628900580551524,0.3807876091613116,0.474359412952003,0.743357625597411,"[[177702, 4091], [11274, 6933]]"
+CatBoost,100.3650267124176,0.7434245971703,"{'learning_rate': 0.08, 'l2_leaf_reg': 1, 'iterations': 500, 'depth': 4}",0.923225,0.6296363636363637,0.3804031416488164,0.47426986681275035,0.7431071447037971,"[[177719, 4074], [11281, 6926]]"

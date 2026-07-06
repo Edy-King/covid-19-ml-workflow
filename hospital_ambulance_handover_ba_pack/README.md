@@ -14,6 +14,7 @@ Project: Hospital Ambulance Handover Process Improvement
 - `outputs/03_sop_and_handover_toolkit.docx`
 - `outputs/04_implementation_impact_feedback_report.docx`
 - `outputs/05_stakeholder_team_meeting_transcript.docx`
+- `outputs/06_evidence_validation_and_signoff_pack.docx`
 - `outputs/ambulance_handover_impact_dashboard.xlsx`
 - `outputs/teams_screenshots/teams_conversation_01_problem_definition.png`
 - `outputs/teams_screenshots/teams_conversation_02_requirements_patient_experience.png`
@@ -27,7 +28,7 @@ KPI figures, stakeholder records, and feedback summaries should be validated wit
 
 ## QA outputs
 
-Fresh PNG/PDF visual QA files are stored in `qa_render_safe_cleanup/`. These are internal review files and are not required as final delivery documents unless specifically requested.
+Fresh PNG/PDF visual QA files for this validation update are stored in `qa_render_validation_update/`. These are internal review files and are not required as final delivery documents unless specifically requested.
 
 ## Regeneration
 

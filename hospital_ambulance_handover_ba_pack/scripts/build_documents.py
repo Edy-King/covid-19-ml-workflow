@@ -338,6 +338,7 @@ def evidence_index():
             ["02 Business Requirements Document", "Scope, stakeholder needs, requirements, acceptance criteria, risks, and traceability", "Shows professional BA delivery and product/process governance"],
             ["03 SOP and Handover Toolkit", "Operational procedure, handover checklist, RACI, escalation, training, and audit forms", "Shows implementation readiness and adoption enablement"],
             ["04 Implementation Impact and Feedback Report", "Post-implementation KPI movement and feedback themes for validation", "Shows benefits realisation and executive reporting"],
+            ["06 Evidence Validation and Sign-off Pack", "Evidence register, validation checklist, approval templates, and data quality controls", "Shows evidence integrity, governance readiness, and approval pathway"],
             ["Impact Dashboard Workbook", "Formula-driven Excel dashboard with charts and validation-ready feedback data", "Shows analytical communication, KPI design, and data storytelling"],
         ],
         [2.0, 2.3, 2.7],
@@ -781,7 +782,113 @@ def impact_report():
     return path
 
 
+def evidence_validation_pack():
+    doc = Document()
+    style_doc(doc)
+    title_block(
+        doc,
+        "Evidence Validation and Sign-off Pack",
+        "Approval pathway for ambulance handover implementation records, KPI data, and stakeholder evidence",
+    )
+    add_note(
+        doc,
+        "Use of this pack",
+        "This document provides the validation route for the implementation proposal. Items should be marked verified only after the named evidence owner reviews the source record, confirms accuracy, and signs the approval section.",
+    )
+    doc.add_heading("1. Validation Purpose", level=1)
+    doc.add_paragraph(
+        "The purpose of this pack is to make the evidence trail clear, reviewable, and ready for hospital governance. It separates draft implementation material from approved evidence and gives each document a named owner, source record, validation test, and sign-off point."
+    )
+    doc.add_paragraph(
+        "The pack can be used during governance review, project closure, quality improvement reporting, procurement discussion, and internal audit. No item should be treated as verified until the corresponding source and sign-off fields are completed."
+    )
+    doc.add_heading("2. Evidence Register", level=1)
+    add_table(
+        doc,
+        "Table 1. Evidence register and approval status.",
+        ["Evidence item", "Source to check", "Evidence owner", "Current status", "Approval required"],
+        [
+            ["Implementation proposal index", "Approved project scope, governance notes, deliverable list", "Project sponsor", "Ready for review", "Sponsor sign-off"],
+            ["Business analysis case study", "Discovery notes, process maps, requirements traceability", "Business analyst + operations manager", "Ready for review", "Operations confirmation"],
+            ["Business requirements document", "Stakeholder requirements, acceptance criteria, risk log", "Operations manager", "Ready for review", "Sponsor and clinical lead approval"],
+            ["SOP and handover toolkit", "Clinical governance review, training records, audit form", "Clinical lead + quality officer", "Ready for review", "Clinical governance approval"],
+            ["Impact and feedback report", "Baseline extract, post-implementation extract, feedback forms", "Data analyst + quality officer", "Validation pending", "Data-owner approval"],
+            ["Impact dashboard workbook", "KPI data table, definitions, formulas, chart outputs", "Data analyst", "Validation pending", "Data-owner approval"],
+            ["Stakeholder transcript and conversation captures", "Meeting minutes, Teams export, attendance record", "Project sponsor", "Validation pending", "Meeting chair approval"],
+        ],
+        [1.55, 1.85, 1.45, 1.0, 1.5],
+    )
+    doc.add_heading("3. KPI Data Validation Checklist", level=1)
+    add_table(
+        doc,
+        "Table 2. Data validation checks before KPI figures are used externally.",
+        ["Check", "Expected control", "Reviewer initials", "Date"],
+        [
+            ["Baseline period confirmed", "January-March 2026 or approved alternative period is documented", "", ""],
+            ["Post-implementation period confirmed", "May-July 2026 or approved alternative period is documented", "", ""],
+            ["Arrival timestamps checked", "Ambulance arrival and clinical acceptance timestamps are complete", "", ""],
+            ["Missing values reviewed", "Missing records are quantified and treatment is explained", "", ""],
+            ["Formula outputs checked", "Dashboard formulas match KPI definitions and source columns", "", ""],
+            ["Outliers reviewed", "Extreme waits or duplicate records are investigated and retained/excluded with reason", "", ""],
+            ["Feedback sample checked", "Staff and patient/carer response counts are recorded by month", "", ""],
+            ["Approval trail complete", "Reviewer name, role, date, and approval decision are recorded", "", ""],
+        ],
+        [2.0, 2.8, 0.9, 0.8],
+    )
+    doc.add_page_break()
+    doc.add_heading("4. Stakeholder Record Validation", level=1)
+    add_table(
+        doc,
+        "Table 3. Meeting and communication validation checks.",
+        ["Record", "Validation action", "Responsible role", "Sign-off"],
+        [
+            ["Stakeholder attendance", "Confirm names, roles, attendance, and apologies against meeting invitation or attendance record", "Meeting chair", ""],
+            ["Transcript wording", "Confirm transcript reflects approved minutes or agreed meeting summary", "Meeting chair", ""],
+            ["Action log", "Confirm owners, deadlines, and evidence outputs match the project action tracker", "Operations manager", ""],
+            ["Conversation captures", "Confirm screenshots or exports are approved for inclusion and do not expose sensitive patient data", "Information governance lead", ""],
+            ["Patient/carer references", "Confirm any patient-facing content is anonymised and suitable for circulation", "Quality officer", ""],
+        ],
+        [1.6, 2.8, 1.4, 0.8],
+    )
+    doc.add_heading("5. Approval Form", level=1)
+    add_table(
+        doc,
+        "Table 4. Evidence approval form.",
+        ["Field", "Completion entry"],
+        [
+            ["Evidence pack version", VERSION],
+            ["Document or dataset reviewed", ""],
+            ["Reviewer name and role", ""],
+            ["Review date", ""],
+            ["Source records checked", ""],
+            ["Accuracy decision", "Approved / Approved with changes / Not approved"],
+            ["Restrictions on use", ""],
+            ["Reviewer signature", ""],
+        ],
+        [2.0, 4.5],
+    )
+    doc.add_heading("6. Change Control Log", level=1)
+    add_table(
+        doc,
+        "Table 5. Change control log.",
+        ["Version", "Date", "Change made", "Changed by", "Approved by"],
+        [
+            ["0.1", "July 2026", "Initial implementation proposal pack prepared for review", AUTHOR, ""],
+            ["", "", "", "", ""],
+            ["", "", "", "", ""],
+        ],
+        [0.7, 0.9, 2.7, 1.2, 1.2],
+    )
+    doc.add_heading("7. Governance Note", level=1)
+    doc.add_paragraph(
+        "Evidence should be used in proportion to its approval status. Draft records can support planning discussions, while verified records can support formal governance, audit, reporting, and external circulation. Any changes to approved evidence should be logged and re-approved by the responsible owner."
+    )
+    path = OUT / "06_evidence_validation_and_signoff_pack.docx"
+    doc.save(path)
+    return path
+
+
 if __name__ == "__main__":
-    paths = [evidence_index(), case_study(), requirements_doc(), sop_toolkit(), impact_report()]
+    paths = [evidence_index(), case_study(), requirements_doc(), sop_toolkit(), impact_report(), evidence_validation_pack()]
     for path in paths:
         print(path)

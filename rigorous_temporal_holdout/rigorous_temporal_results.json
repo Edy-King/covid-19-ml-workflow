@@ -1,0 +1,52 @@
+{
+  "design": {
+    "development": "2020-03-20 to 2021-03-03",
+    "validation": "2021-03-04 to 2021-08-07",
+    "untouched_temporal_holdout": "2021-08-08 to 2021-10-11",
+    "development_n": 4386596,
+    "validation_n": 592575,
+    "holdout_n": 882309,
+    "development_prevalence": 0.09045031728474653,
+    "validation_prevalence": 0.03903472134328988,
+    "holdout_prevalence": 0.09721424126921521,
+    "threshold_selection": "maximum validation F1 after validation-only isotonic calibration",
+    "selected_threshold": 0.3180428134556575,
+    "fit_seconds": 529.4555537700653,
+    "prediction_files": [
+      "validation_predictions.csv.gz",
+      "untouched_temporal_holdout_predictions.csv.gz"
+    ]
+  },
+  "validation": {
+    "accuracy": 0.9569303463696579,
+    "precision": 0.46346159723707936,
+    "recall": 0.6555704465868315,
+    "specificity": 0.9691716832559479,
+    "f1": 0.5430259623992838,
+    "balanced_accuracy": 0.8123710649213898,
+    "roc_auc": 0.8312902599915014,
+    "average_precision": 0.351699036273565,
+    "brier_score": 0.02680979623593138,
+    "mcc": 0.5297675215206042,
+    "tn": 551889,
+    "fp": 17555,
+    "fn": 7967,
+    "tp": 15164
+  },
+  "holdout": {
+    "accuracy": 0.5367235288317358,
+    "precision": 0.13571931280903743,
+    "recall": 0.701456169190771,
+    "specificity": 0.5189847037673124,
+    "f1": 0.2274341551924549,
+    "balanced_accuracy": 0.6102204364790418,
+    "roc_auc": 0.6937796598714332,
+    "average_precision": 0.330582139964578,
+    "brier_score": 0.10692741232216839,
+    "mcc": 0.1306124592967439,
+    "tn": 413390,
+    "fp": 383146,
+    "fn": 25607,
+    "tp": 60166
+  }
+}

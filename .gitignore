@@ -1,4 +1,6 @@
 # Local/raw data
+archive.zip
+covid_data_2020-2021.csv
 covid_data_2020_2021.csv
 *.csv.gz
 *.zip

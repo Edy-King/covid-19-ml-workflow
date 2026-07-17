@@ -1,159 +1,93 @@
-# COVID-19 Symptom Classification Machine Learning Workflow
+# COVID-19 Symptom Classification Machine-Learning Workflow
 
-This project contains my machine learning workflow for classifying COVID-19 test results from patient symptom and context data.
+This repository contains a reproducible workflow for classifying COVID-19 test outcomes from symptom and testing-context data.
 
-I used 1,000,000 patient records from the COVID-19 dataset published on Kaggle and built an efficient notebook-based workflow that loads the data, cleans it, engineers useful features, trains several machine learning models, compares their performance, tunes the strongest candidates, and saves the best final model.
-
-Dataset source: [COVID-19 Dataset for Year 2020 on Kaggle](https://www.kaggle.com/datasets/mykeysid10/covid19-dataset-for-year-2020)
-
-## Project Files
-
-- `covid_symptom_ml_workflow_exported.ipynb` - final executed notebook with outputs, visualizations, model comparisons, tuning results, and saved-model workflow.
-- `covid_symptom_ml_workflow.ipynb` - working executed notebook.
-- `requirements_ml.txt` - Python packages required to run the notebook.
-- `ml_outputs/baseline_model_results.csv` - baseline model comparison results.
-- `ml_outputs/tuned_model_results.csv` - tuned model comparison results.
-- `ml_outputs/models/best_covid_symptom_model.joblib` - saved best model.
-- `ml_outputs/models/best_covid_symptom_model_metadata.json` - final model metadata, features, parameters, and metrics.
-- `build_covid_ml_notebook.py` - script used to generate the notebook structure.
-
-The original dataset is not included in the repository because it is large. To reproduce the work, download the dataset from Kaggle and place the CSV in the project folder as:
-
-```text
-covid_data_2020_2021.csv
-```
+The original experiment compared seven classifiers on the first 1,000,000 records. The corrected temporal-validation workflow uses all 5,861,480 records with separate chronological development, validation and untouched temporal-holdout periods.
 
 ## Dataset
 
-The dataset contains COVID-19 patient test records with symptom indicators and patient context columns. I used the Kaggle version here:
+Download the **COVID-19 Dataset for Year 2020** from Kaggle:
 
-[https://www.kaggle.com/datasets/mykeysid10/covid19-dataset-for-year-2020](https://www.kaggle.com/datasets/mykeysid10/covid19-dataset-for-year-2020)
+https://www.kaggle.com/datasets/mykeysid10/covid19-dataset-for-year-2020
 
-I used 1,000,000 records and the following original columns:
-
-- `test_date`
-- `cough`
-- `fever`
-- `sore_throat`
-- `shortness_of_breath`
-- `head_ache`
-- `corona_result`
-- `age_60_and_above`
-- `gender`
-- `test_indication`
-
-The target variable is:
+Extract the archive locally and place this file in the repository root:
 
 ```text
-corona_result
+covid_data_2020-2021.csv
 ```
 
-where:
+The dataset and its ZIP archive are intentionally excluded from Git. Do not commit or redistribute them from this repository.
 
-- `Negative` is encoded as `0`
-- `Positive` is encoded as `1`
+## Corrected Temporal-Validation Design
 
-## Feature Engineering
+The repository-ready script `run_rigorous_temporal_holdout.py` uses whole-date, non-overlapping partitions:
 
-I kept the five main symptom features and added simple, explainable features to help the models learn more useful patterns.
+- Development: 20 March 2020 to 3 March 2021; 4,386,596 records
+- Validation: 4 March to 7 August 2021; 592,575 records
+- Untouched temporal holdout: 8 August to 11 October 2021; 882,309 records
 
-Final model features:
+The random forest is fitted only on the development period. Isotonic calibration and F1-based threshold selection use only the validation period. The calibrated model and frozen threshold are then evaluated once on the untouched latest-period holdout.
 
-- `cough`
-- `fever`
-- `sore_throat`
-- `shortness_of_breath`
-- `head_ache`
-- `symptom_count`
-- `has_any_symptom`
-- `has_multiple_symptoms`
-- `age_60_and_above_yes`
-- encoded gender features
-- encoded test indication features
-- `test_month`
-- `test_dayofweek`
+This is **temporal validation within the same data source**, not true external validation. Validation in a different population, institution or collection system remains recommended future work.
 
-## Models Trained
-
-I trained and compared seven models:
-
-- Logistic Regression
-- Random Forest
-- Extra Trees
-- PCA + Linear SVM
-- XGBoost
-- LightGBM
-- CatBoost
-
-GPU acceleration was attempted for XGBoost, LightGBM, and CatBoost. Where GPU setup was available, the model used GPU; otherwise the notebook can fall back to CPU.
-
-## Evaluation Metrics
-
-Each model was evaluated using:
-
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- ROC-AUC
-- Confusion matrix
-
-Because the dataset is imbalanced, I used ROC-AUC as the main ranking metric and F1-score as a secondary comparison metric.
-
-## Final Result
-
-The top three models selected for hyperparameter tuning were:
-
-- XGBoost
-- LightGBM
-- CatBoost
-
-The best final model was:
-
-```text
-Tuned LightGBM
-```
-
-Final tuned LightGBM performance:
+## Main Untouched-Holdout Results
 
 | Metric | Value |
 |---|---:|
-| Accuracy | 0.923175 |
-| Precision | 0.628901 |
-| Recall | 0.380788 |
-| F1-score | 0.474359 |
-| ROC-AUC | 0.743358 |
+| ROC-AUC | 0.6938 |
+| Average precision | 0.3306 |
+| Accuracy | 0.5367 |
+| Precision | 0.1357 |
+| Recall | 0.7015 |
+| Specificity | 0.5190 |
+| F1-score | 0.2274 |
+| Balanced accuracy | 0.6102 |
+| Brier score | 0.1069 |
 
-Confusion matrix:
+The holdout result demonstrates substantial temporal degradation compared with validation ROC-AUC of 0.8313. It should not be interpreted as evidence of clinical readiness.
 
-```text
-[[177702, 4091],
- [11274, 6933]]
-```
+## Installation
 
-## How to Run
-
-Install the required packages:
+Create a fresh environment and install the pinned corrected-workflow dependencies:
 
 ```bash
-pip install -r requirements_ml.txt
+python -m pip install -r requirements_temporal_lock.txt
 ```
 
-Download the dataset from Kaggle, place `covid_data_2020_2021.csv` in the project folder, then open and run:
+Run the temporal workflow from the repository root:
 
-```text
-covid_symptom_ml_workflow_exported.ipynb
+```bash
+python run_rigorous_temporal_holdout.py
 ```
 
-The notebook writes model outputs to:
+Outputs are written to `rigorous_temporal_holdout/`, including aggregate metrics, plots and compressed record-level prediction files for the validation and final holdout periods.
 
-```text
-ml_outputs/
-```
+When the temporal script is rerun with the Kaggle CSV present, it writes:
 
-## Notes
+- `rigorous_temporal_holdout/validation_predictions.csv.gz`
+- `rigorous_temporal_holdout/untouched_temporal_holdout_predictions.csv.gz`
 
-- I did not overwrite the original dataset.
-- I used memory-efficient loading by selecting only the required columns and compact data types.
-- I compared several model families before tuning the strongest candidates.
-- PCA + Linear SVM was tested, but the boosted tree models performed better on this dataset.
+These files contain row index, test date, observed outcome, raw random-forest probability, validation-calibrated probability and the prediction made at the frozen validation-selected threshold. They are generated locally rather than bundled with the source data.
+
+## Repository Files in This Update
+
+- `run_rigorous_temporal_holdout.py` - corrected full-data temporal workflow
+- `requirements_temporal_lock.txt` - exact environment used for the corrected analysis
+- `rigorous_temporal_holdout/` - partition summary, metrics and final holdout figure
+- `extended_analysis/` - reproduced random-split metrics, bootstrap intervals, model agreement, threshold analysis, permutation importance and figures
+- `manuscript/COVID19_Manuscript_Major_Revision.docx` - revised manuscript
+- `UPDATE_NOTES.md` - overlay and commit guidance
+
+## Important Methodological Notes
+
+- The original random-split workflow used its test set for model selection, so that estimate was not fully independent.
+- The first million rows contain many repeated observed profiles and no patient identifier; identical profiles cannot be assumed to be independent patients.
+- LightGBM remains part of the original comparison, but the corrected probability-based temporal analysis uses random forest because its repository result was reproduced exactly and its record-level probabilities were available.
+- If LightGBM is later retained as the named deployment model, rerun the same locked partitions with saved LightGBM probabilities and repeat calibration, average precision, threshold selection and temporal holdout evaluation.
+- True external validation remains a recommendation.
+
+## Data and Code Availability
+
+Dataset: https://www.kaggle.com/datasets/mykeysid10/covid19-dataset-for-year-2020
+
+Repository: https://github.com/Edy-King/covid-19-ml-workflow

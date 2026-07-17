@@ -1,0 +1,4 @@
+model_a,model_b,raw_agreement,cohen_kappa
+Logistic regression,Random forest,0.99943,0.9945325116244415
+Logistic regression,Extra trees,0.999425,0.9944861973183639
+Random forest,Extra trees,0.999965,0.9996632275797468
